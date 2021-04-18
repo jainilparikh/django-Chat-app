@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'loginPage/login.css' %}">
+<div class="login-box">
+  <h2>Login</h2>
+  <form method="POST" action='.' id='login-form'> {% csrf_token %}
+    <div class="user-box">
+      <input type="text" name="Username" required="">
+      <label>Username</label>
+    </div>
+    <div class="user-box">
+      <input type="password" name="password" required="">
+      <label>Password</label>
+    </div>
+    <a href="#" onclick="document.getElementById('login-form').submit()">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      Submit
+   </a>
+  </form>
+</div>
