@@ -7,7 +7,7 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blogPage', '0003_rename_reveiver_message_receiver'),
+        ('chatRoomPage', '0003_rename_reveiver_message_receiver'),
     ]
 
     operations = [

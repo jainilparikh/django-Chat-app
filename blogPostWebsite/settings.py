@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
-    'blogPage.apps.BlogpageConfig',
+    'chatRoomPage.apps.ChatRoomConfig',
     'rest_framework',
     'corsheaders',
     'bootstrap4',

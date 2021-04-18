@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blogPage', '0002_message'),
+        ('chatRoomPage', '0002_message'),
     ]
 
     operations = [

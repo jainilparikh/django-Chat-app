@@ -16,7 +16,7 @@ def home(request):
         :param:
         :return: 
     """
-    return render(request, 'blogPage/home.html')
+    return render(request, 'chatRoomPage/home.html')
 
 
 class LanguageView(viewsets.ModelViewSet): 
@@ -38,34 +38,69 @@ def chatView(request):
     sender = request.session['sender']
     receiver = request.session['receiver']
 
+    totalMessages = Message.objects.filter(sender = receiver)
+    messageList = []
+    messagesList1 = []
+    for i in totalMessages:
+        data = {
+            'message': i.message,
+            'time': i.time,
+            'sender': '0'
+            }
+        messageList.append(data)
+        
+    totalMessages = Message.objects.filter(sender = sender)
+    messagesList2 = []
+    for i in totalMessages:
+        data = {
+            'message': i.message,
+            'time': i.time,
+            'sender': '1'
+        }
+        messageList.append(data)
+    messageList = sorted(messageList, key = lambda k: k['time'])
+
+    context = {
+        'messagesList': messageList,
+        'sender': sender,
+        'receiver': receiver
+    }
+
     if request.method == "POST":
         message = request.POST.get('messageBox') # response['message']
         res = Message(sender=sender, receiver=receiver, message=message, time= datetime.datetime.now())
         res.save()
 
         totalMessages = Message.objects.filter(sender = receiver)
+        messageList = []
         messagesList1 = []
         for i in totalMessages:
             data = {
                 'message': i.message,
-                'time': i.time
+                'time': i.time,
+                'sender': '0'
             }
-            messagesList1.append(i.message)
-        print(messagesList1)
+            messageList.append(data)
         
         totalMessages = Message.objects.filter(sender = sender)
         messagesList2 = []
         for i in totalMessages:
-            messagesList2.append(i.message)
-        print(messagesList2)
+            data = {
+                'message': i.message,
+                'time': i.time,
+                'sender': '1'
+            }
+            messageList.append(data)
+            messageList = sorted(messageList, key = lambda k: k['time'])
 
         context = {
-            "messagesList1": messagesList1,
-            "messagesList2": messagesList2
+            'messagesList': messageList,
+            'sender': sender,
+            'receiver': receiver
         }
-        return render(request, 'blogPage/chatRoom.html', context)
-        
-    return render(request, 'blogPage/chatRoom.html', context)
+        return render(request, 'chatRoomPage/chatRoom.html', context)
+
+    return render(request, 'chatRoomPage/chatRoom.html', context)
 
 
 def loginView(request):
@@ -78,11 +113,11 @@ def loginView(request):
     if(request.method == "POST"):
 
         sender = request.POST.get('Username')
-        if(sender == 'user1'):
-            receiver = 'user2'
+        if(sender == 'kate'):
+            receiver = 'john'
         else:
-            receiver = 'user1'
-
+            receiver = 'kate'
+        
         request.session.set_test_cookie()
         request.session ['sender'] =  sender
         request.session ['receiver'] =  receiver
@@ -90,25 +125,35 @@ def loginView(request):
         request.method = 'GET'
         totalMessages = Message.objects.filter(sender = sender)
         messagesList1 = []
+        messagesList = []
 
         for i in totalMessages:
-            messagesList1.append(i.message)
-            print(i.time)
-        print(messagesList1)
+            data = {
+                'message': i.message,
+                'time': i.time,
+                'sender': '1'
+            }
+            messagesList.append(data)
 
-        sender = receiver
-        receiver = sender
-        totalMessages = Message.objects.filter(sender = sender)
+        totalMessages = Message.objects.filter(sender = receiver)
         messagesList2 = []
 
         for i in totalMessages:
-            messagesList2.append(i.message)
-        context = {
-            'messagesList1': messagesList2,
-            'messagesList2': messagesList1
-        }
+            data = {
+                'message': i.message,
+                'time': i.time,
+                'sender': '0'
+            }
+            messagesList.append(data)
+            messagesList = sorted(messagesList, key = lambda k: k['time'])
 
-        return render(request, 'blogPage/chatRoom.html', context)
+        context = {
+            'messagesList': messagesList,
+            'sender': sender,
+            'receiver': receiver
+        }
+        return render(request, 'chatRoomPage/chatRoom.html', context)
+
     return render(request, 'loginScreen/login.html')
 
 
