@@ -1,0 +1,39 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'blogPage/chatRoom.css' %}">
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-bordered">
+                    <div class="card-header">
+                        <h4 class="card-title"><strong>Chat</strong></h4> <a class="btn btn-xs btn-secondary" href="#" data-abc="true">Let's Chat App</a>
+                    </div>
+                    <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                        <div class="media media-chat"> <img class="avatar" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                            <div class="media-body">
+                              {% for i in messagesList1 %}
+                                  <p> {{ i }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="media media-meta-day">Today</div>
+                        <div class="media media-chat media-chat-reverse">
+                            <div class="media-body">
+                                {% for i in messagesList2 %}
+                                  <p> {{ i }}</p>
+                                {% endfor %}
+                                <p class="meta"><time datetime="2018">00:06</time></p>
+                            </div>
+                        </div>
+                    </div>
+                    <form action='http://0.0.0.0:8000/blog/chat/' method='POST'>{% csrf_token %}
+                        <div class="publisher bt-1 border-light"> <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="..."> 
+                        <input class="publisher-input" type="text" style="width: 1000px" placeholder="Write something" name = "messageBox" > 
+                        <input class="btn-default" type="submit" value="Send" style="color:Blue;margin-left: 20vw;" id="sendButton"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'blogPage/chatRoom.js' %}"></script>   
